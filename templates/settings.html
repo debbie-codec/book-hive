@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h3 {
+            color: #333;
+        }
+
+        .alert {
+            border-radius: 8px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            box-shadow: none;
+        }
+
+        .btn-primary, .btn-warning {
+            border-radius: 8px;
+            padding: 10px 20px;
+        }
+
+        .mt-3 {
+            margin-top: 2rem;
+        }
+
+        .form-control:focus {
+            border-color: #6c757d;
+            box-shadow: none;
+        }
+
+        .alert-info {
+            background-color: #e8f8ff;
+            border-color: #cce5ff;
+            color: #31708f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Settings</h1>
+
+        <!-- Flash Messages for Verification Code and Success/Failure -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info" role="alert">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Settings Form -->
+        <form method="POST" action="{{ url_for('update_settings') }}">
+            <div class="form-group">
+                <label for="name">Change Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" placeholder="Enter new name">
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Change Bio</label>
+                <textarea class="form-control" id="bio" name="bio" rows="3" placeholder="Enter new bio">{{ user.bio }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Change Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter new password">
+            </div>
+
+            <div class="form-group">
+                <label for="verification_code">Verification Code</label>
+                <input type="text" class="form-control" id="verification_code" name="verification_code" placeholder="Enter the 6-digit code" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+        </form>
+
+        <!-- Forgot Password Section -->
+        <div class="mt-4">
+            <h3>Forgot Password?</h3>
+            <p>If you've forgotten your password, you can reset it by entering your email below:</p>
+            <form method="POST" action="{{ url_for('forgot_password') }}">
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                </div>
+                <button type="submit" class="btn btn-warning btn-block">Reset Password</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
